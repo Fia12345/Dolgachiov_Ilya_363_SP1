@@ -78,7 +78,7 @@ func (r *SQLiteRepository) GetBook(id string) (*models.Book, error) {
 	err := r.db.QueryRow("SELECT id, title, author, isbn, year, status FROM books WHERE id = ?", id).
 		Scan(&b.ID, &b.Title, &b.Author, &b.ISBN, &b.Year, &b.Status)
 	if err == sql.ErrNoRows {
-		return nil, fmt.Errorf("book not found")
+		return nil, fmt.Errorf("книга не найдена")
 	}
 	return &b, err
 }
@@ -157,7 +157,7 @@ func (r *SQLiteRepository) IssueBook(bookID, userID string) error {
 	var status string
 	err := r.db.QueryRow("SELECT status FROM books WHERE id = ?", bookID).Scan(&status)
 	if err != nil || status != "Available" {
-		return fmt.Errorf("book not available")
+		return fmt.Errorf("книга недоступна для выдачи")
 	}
 
 	issueID := "issue_" + bookID + "_" + userID 
