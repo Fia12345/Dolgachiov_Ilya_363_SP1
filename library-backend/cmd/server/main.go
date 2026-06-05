@@ -21,7 +21,7 @@ func main() {
 	slog.SetDefault(logger)
 	repo, err := repository.NewSQLiteRepository(cfg.DBPath)
 	if err != nil {
-		slog.Error("Failed to init DB", "error", err)
+		slog.Error("Не удалось инициализировать базу данных", "error", err)
 		os.Exit(1)
 	}
 	defer repo.Close()
@@ -39,7 +39,7 @@ func main() {
 	mux.Handle("POST /returns", protected(http.HandlerFunc(h.ReturnBook)))
 	mux.HandleFunc("POST /login", h.Login)
 
-	slog.Info("Server starting", "port", cfg.ServerPort)
+	slog.Info("Сервер запускается", "port", cfg.ServerPort)
 
 	server := &http.Server{
 		Addr:    ":" + cfg.ServerPort,
@@ -50,12 +50,12 @@ func main() {
 
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			slog.Error("Server failed", "error", err)
+			slog.Error("Ошибка запуска сервера", "error", err)
 		}
 	}()
 
 	<-done
-	slog.Info("Shutting down...")
+	slog.Info("Ошибка завершения работы сервера...")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
