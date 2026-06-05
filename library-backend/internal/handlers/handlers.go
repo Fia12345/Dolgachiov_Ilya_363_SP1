@@ -149,7 +149,7 @@ func (h *Handlers) Login(w http.ResponseWriter, r *http.Request) {
 
 	user, pass, role, err := h.repo.GetUserByEmail(req.Email)
 	if err != nil || pass != req.Password {
-		http.Error(w, "invalid credentials", http.StatusUnauthorized)
+		http.Error(w, "Неверные учётные данные", http.StatusUnauthorized)
 		return
 	}
 
