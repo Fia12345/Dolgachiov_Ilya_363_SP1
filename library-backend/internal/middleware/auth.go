@@ -19,7 +19,7 @@ func AuthMiddleware(h *handlers.Handlers, secret string) func(http.Handler) http
 
 			token := strings.TrimPrefix(authHeader, "Bearer ")
 			if token == "" {
-				http.Error(w, "unauthorized", http.StatusUnauthorized)
+				http.Error(w, "не авторизирован", http.StatusUnauthorized)
 				return
 			}
 			ctx := context.WithValue(r.Context(), "user", "demo-user")
